@@ -90,42 +90,43 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
             .catch(error => {
                 document.getElementById('loader').style.display = 'none';
                 console.log(error.response.status === 400)
-                if (error === 400) {
-                    Swal.fire({
-                        position: "center",
-                        icon: "error",
-                        title: "Transaction receipt failed.",
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then((result) => {
-                        if (result) {
-                        }
-                    })
-                } else if (error === 404) {
-                    Swal.fire({
-                        position: "center",
-                        icon: "error",
-                        title: "Transaction receipt failed.",
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then((result) => {
-                        if (result) {
-                        }
-                    })
-                }
-                else {
-                    Swal.fire({
-                        position: "center",
-                        icon: "warning",
-                        title: "Please send your transaction recipt on whatsapp to verification. This course is temporary allowed",
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then((result) => {
-                        if (result) {
-                            window.location.href = './success.html'
-                        }
-                    })
-                }
+                Swal.fire({
+                    position: "center",
+                    icon: "warning",
+                    title: "Please send your transaction recipt on whatsapp to verification. This course is temporary allowed",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then((result) => {
+                    if (result) {
+                        window.location.href = './success.html'
+                    }
+                })
+                // if (error === 400) {
+                //     Swal.fire({
+                //         position: "center",
+                //         icon: "error",
+                //         title: "Transaction receipt failed.",
+                //         showConfirmButton: false,
+                //         timer: 1500
+                //     }).then((result) => {
+                //         if (result) {
+                //         }
+                //     })
+                // } else if (error === 404) {
+                //     Swal.fire({
+                //         position: "center",
+                //         icon: "error",
+                //         title: "Transaction receipt failed.",
+                //         showConfirmButton: false,
+                //         timer: 1500
+                //     }).then((result) => {
+                //         if (result) {
+                //         }
+                //     })
+                // }
+                // else {
+                // }
+                
                 // // switch (error.response.status) {
                 //     case 400:
                 //         document.getElementById('loader').style.display = 'none';
