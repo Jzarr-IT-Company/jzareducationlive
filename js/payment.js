@@ -89,8 +89,8 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
             })
             .catch(error => {
                 document.getElementById('loader').style.display = 'none';
-                console.log(error.message)
-                if (error.resposne.status === 404) {
+                console.log(error.response.status === 400)
+                if (error === 404) {
                     Swal.fire({
                         position: "center",
                         icon: "error",
@@ -101,7 +101,19 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
                         if (result) {
                         }
                     })
-                } else {
+                } else if (error === 404) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Transaction receipt failed.",
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then((result) => {
+                        if (result) {
+                        }
+                    })
+                }
+                else {
                     Swal.fire({
                         position: "center",
                         icon: "warning",
@@ -114,7 +126,7 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
                         }
                     })
                 }
-                // switch (error.response.status) {
+                // // switch (error.response.status) {
                 //     case 400:
                 //         document.getElementById('loader').style.display = 'none';
                 //         Swal.fire({
