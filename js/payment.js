@@ -89,10 +89,11 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
             })
             .catch(error => {
                 document.getElementById('loader').style.display = 'none';
-
                 console.log(error.message)
                 switch (error.response.status) {
                     case 400:
+                        document.getElementById('loader').style.display = 'none';
+
                         Swal.fire({
                             position: "center",
                             icon: "error",
@@ -106,6 +107,8 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
                         })
                         break;
                     case 404:
+                        document.getElementById('loader').style.display = 'none';
+
                         Swal.fire({
                             position: "center",
                             icon: "error",
@@ -119,6 +122,8 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
                         })
                         break;
                     default:
+                        document.getElementById('loader').style.display = 'none';
+
                         Swal.fire({
                             position: "center",
                             icon: "error",
@@ -134,6 +139,7 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
                 }
             });
     } else {
+        document.getElementById('loader').style.display = 'none';
         Swal.fire({
             position: "center",
             icon: "warning",
