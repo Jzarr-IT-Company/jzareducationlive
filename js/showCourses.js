@@ -13,23 +13,36 @@ const getCourses = async () => {
         const firstEightCourses = data.response.slice(0, 8);
 
         firstEightCourses.map((course) => {
-            const courseDescription = course.coursedescription.split(" ").slice(0, 8).join(" ") + '...';
+            const courseDescription = course.coursedescription.split(" ").slice(0, 6).join(" ") + '...';
 
             document.querySelector("#showCourses").innerHTML += `
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="card custom-card">
-                        <img src="${course.Courseimage}" class="card-img-top custom-img" style="height: 180px;" alt="">
-                        <div class="card-body mt-3">
-                            <h5 class="card-title fw-bold">${course.coursename}</h5>
-                            <p class="card-text">${courseDescription}</p>
-                            <div class="d-flex justify-content-between mt-4">
-                                <a href="./detailCourses.html?cid=${course._id}&cn=${course.coursename}" class="text-success fw-semibold">Buy Now</a>
-                                <a href="./detailCourses.html?cid=${course._id}&cn=${course.coursename}" class="text-success fw-semibold">View Detail</a>
-                            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card">
+  <img src="${course.Courseimage}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">${course.coursename}</h5>
+    <p class="card-text">${courseDescription}</p>
+    <div class="d-flex justify-content-between mt-4">
+                            <a href="./detailCourses.html?cid=${course._id}&cn=${course.coursename}" class="text-success fw-semibold">Buy Now</a>
+                            <a href="./detailCourses.html?cid=${course._id}&cn=${course.coursename}" class="text-success fw-semibold">View Detail</a>
                         </div>
-                    </div>
-                </div>
+  </div>
+</div>
+</div>
             `;
+            // <div class="col-lg-3 col-md-6 col-sm-12">
+            //     <div class="card custom-card">
+            //         <img src="${course.Courseimage}" class="card-img-top custom-img" style="height: 180px;" alt="">
+            //         <div class="card-body mt-3">
+            //             <h5 class="card-title fw-bold">${course.coursename}</h5>
+            //             <p class="card-text">${courseDescription}</p>
+            // <div class="d-flex justify-content-between mt-4">
+            //     <a href="./detailCourses.html?cid=${course._id}&cn=${course.coursename}" class="text-success fw-semibold">Buy Now</a>
+            //     <a href="./detailCourses.html?cid=${course._id}&cn=${course.coursename}" class="text-success fw-semibold">View Detail</a>
+            // </div>
+            //         </div>
+            //     </div>
+            // </div>
         });
         document.querySelector("#loadingIndicator").style.display = "none";
     } catch (error) {
