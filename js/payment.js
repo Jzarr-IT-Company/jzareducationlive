@@ -90,7 +90,7 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
             .catch(error => {
                 document.getElementById('loader').style.display = 'none';
                 console.log(error.response.status === 400)
-                if (error === 404) {
+                if (error === 400) {
                     Swal.fire({
                         position: "center",
                         icon: "error",
