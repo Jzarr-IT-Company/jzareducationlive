@@ -93,7 +93,6 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
                 switch (error.response.status) {
                     case 400:
                         document.getElementById('loader').style.display = 'none';
-
                         Swal.fire({
                             position: "center",
                             icon: "error",
