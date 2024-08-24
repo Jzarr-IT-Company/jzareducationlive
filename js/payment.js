@@ -90,48 +90,72 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
             .catch(error => {
                 document.getElementById('loader').style.display = 'none';
                 console.log(error.message)
-                switch (error.response.status) {
-                    case 400:
-                        document.getElementById('loader').style.display = 'none';
-                        Swal.fire({
-                            position: "center",
-                            icon: "error",
-                            title: "Transaction receipt failed.",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((result) => {
-                            if (result) {
-                            }
-                        })
-                        break;
-                    case 404:
-                        document.getElementById('loader').style.display = 'none';
-                        Swal.fire({
-                            position: "center",
-                            icon: "error",
-                            title: "Transaction receipt not found.",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((result) => {
-                            if (result) {
-                            }
-                        })
-                        break;
-                    default:
-                        document.getElementById('loader').style.display = 'none';
-                        Swal.fire({
-                            position: "center",
-                            icon: "warning",
-                            title: "Please send your transaction recipt on whatsapp to verification. This course is temporary allowed",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((result) => {
-                            if (result) {
-                                window.location.href = './success.html'
-                            }
-                        })
-                        break;
+                if (error.resposne.status === 404) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Transaction receipt failed.",
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then((result) => {
+                        if (result) {
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        position: "center",
+                        icon: "warning",
+                        title: "Please send your transaction recipt on whatsapp to verification. This course is temporary allowed",
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then((result) => {
+                        if (result) {
+                            window.location.href = './success.html'
+                        }
+                    })
                 }
+                // switch (error.response.status) {
+                //     case 400:
+                //         document.getElementById('loader').style.display = 'none';
+                //         Swal.fire({
+                //             position: "center",
+                //             icon: "error",
+                //             title: "Transaction receipt failed.",
+                //             showConfirmButton: false,
+                //             timer: 1500
+                //         }).then((result) => {
+                //             if (result) {
+                //             }
+                //         })
+                //         break;
+                //     case 404:
+                //         document.getElementById('loader').style.display = 'none';
+                //         Swal.fire({
+                //             position: "center",
+                //             icon: "error",
+                //             title: "Transaction receipt not found.",
+                //             showConfirmButton: false,
+                //             timer: 1500
+                //         }).then((result) => {
+                //             if (result) {
+                //             }
+                //         })
+                //         break;
+                //     default:
+                //         document.getElementById('loader').style.display = 'none';
+                //         Swal.fire({
+                //             position: "center",
+                //             icon: "warning",
+                //             title: "Please send your transaction recipt on whatsapp to verification. This course is temporary allowed",
+                //             showConfirmButton: false,
+                //             timer: 1500
+                //         }).then((result) => {
+                //             if (result) {
+                //                 window.location.href = './success.html'
+                //             }
+                //         })
+                //         break;
+                // }
             });
     } else {
         document.getElementById('loader').style.display = 'none';
