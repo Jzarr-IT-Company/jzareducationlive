@@ -88,7 +88,7 @@ document.querySelector("#createAccount").addEventListener("click", () => {
                             document.cookie = `id=${response.data.id}; path=/; max-age=${maxAge}; Secure; SameSite=Strict`;
                             if (isOnline) {
                                 localStorage.removeItem("onlineBuy")
-                                 window.location.href=`./payment.html?ac=${btoa(totalCost)}`
+                                 window.location.href=`./payment.html?ac=${btoa("2700")}`
                                 // window.location.href = `https://payment-gateway-beryl.vercel.app/?ac=2700`
                             }else if(buyMore){
                                 localStorage.removeItem("buyMore")
