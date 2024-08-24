@@ -101,13 +101,11 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
                             timer: 1500
                         }).then((result) => {
                             if (result) {
-                                // window.location.href = "./success.html"
                             }
                         })
                         break;
                     case 404:
                         document.getElementById('loader').style.display = 'none';
-
                         Swal.fire({
                             position: "center",
                             icon: "error",
@@ -116,22 +114,20 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
                             timer: 1500
                         }).then((result) => {
                             if (result) {
-                                // window.location.href = "./success.html"
                             }
                         })
                         break;
                     default:
                         document.getElementById('loader').style.display = 'none';
-
                         Swal.fire({
                             position: "center",
-                            icon: "error",
-                            title: "Something went wrong.",
+                            icon: "warning",
+                            title: "Please send your transaction recipt on whatsapp to verification. This course is temporary allowed",
                             showConfirmButton: false,
                             timer: 1500
                         }).then((result) => {
                             if (result) {
-                                // window.location.href = "./success.html"
+                                window.location.href = './success.html'
                             }
                         })
                         break;
