@@ -18,7 +18,7 @@ const getCourses = async () => {
             document.querySelector("#showCourses").innerHTML += `
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="card custom-card">
-                        <img src="${course.Courseimage}" class="card-img-top custom-img" style="height: 180px;" alt="">
+                        <img src="${course.Courseimage}" class="card-img-top custom-img" alt="">
                         <div class="card-body mt-3">
                             <h5 class="card-title fw-bold">${course.coursename}</h5>
                             <p class="card-text">${courseDescription}</p>
