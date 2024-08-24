@@ -122,6 +122,7 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
                         timer: 1500
                     }).then((result) => {
                         if (result) {
+                            
                             // window.location.href = './success.html'
                         }
                     })
