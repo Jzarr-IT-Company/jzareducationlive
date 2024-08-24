@@ -2,7 +2,7 @@
  .custom-card {
     display: flex;
     flex-direction: column;
-    height: 380px;
+    height: 460px !important;
 }
 
 .custom-img {
