@@ -30,12 +30,32 @@ const p = urlParam.get('p');   // 'p' parameter ko get karein
 const decodedAc = atob(ac);
 const decodedE = atob(e);
 const decodedP = atob(p);
+const fileInput = document.querySelector("#file");
+const imagePreview = document.querySelector("#imagePreview");
+
+fileInput.addEventListener("change", function () {
+    const imageFile = fileInput.files[0]; // Get the selected file
+
+    if (imageFile) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            imagePreview.src = e.target.result; // Set the preview image source
+            imagePreview.style.display = 'block'; // Display the image
+        };
+
+        reader.readAsDataURL(imageFile); // Convert the file to a data URL
+    }
+});
+
+
 const useramount = decodedAc ? decodedAc : 2700;
 document.querySelector("#totalFee").innerHTML = useramount;
 document.querySelector('#uploadBtn').addEventListener('click', function () {
+    document.getElementById('loader').style.display = 'flex';
     const fileInput = document.querySelector("#file");
-    const transactionsId = document.querySelector("#file");
-    const accountName = document.querySelector("#file");
+    const transactionsId = document.querySelector("#transactionID");
+    const accountName = document.querySelector("#accountName");
     const files = fileInput.files;
     if (files.length > 0) {
         const imageFile = files[0];
@@ -50,6 +70,8 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
             }
         })
             .then(response => {
+                document.getElementById('loader').style.display = 'none';
+
                 console.log('Response from server:', response.data);
                 if (response.data.status === 200) {
                     Swal.fire({
@@ -58,14 +80,16 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
                         title: "TRANSACTION SUCCESS FULLY",
                         showConfirmButton: false,
                         timer: 1500
-                    }).then((result)=>{
-                        if(result){
+                    }).then((result) => {
+                        if (result) {
                             window.location.href = "./success.html"
                         }
                     })
                 }
             })
             .catch(error => {
+                document.getElementById('loader').style.display = 'none';
+
                 console.log(error.message)
                 switch (error.response.status) {
                     case 400:
@@ -75,8 +99,8 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
                             title: "Transaction receipt failed.",
                             showConfirmButton: false,
                             timer: 1500
-                        }).then((result)=>{
-                            if(result){
+                        }).then((result) => {
+                            if (result) {
                                 // window.location.href = "./success.html"
                             }
                         })
@@ -88,8 +112,8 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
                             title: "Transaction receipt not found.",
                             showConfirmButton: false,
                             timer: 1500
-                        }).then((result)=>{
-                            if(result){
+                        }).then((result) => {
+                            if (result) {
                                 // window.location.href = "./success.html"
                             }
                         })
@@ -101,8 +125,8 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
                             title: "Something went wrong.",
                             showConfirmButton: false,
                             timer: 1500
-                        }).then((result)=>{
-                            if(result){
+                        }).then((result) => {
+                            if (result) {
                                 // window.location.href = "./success.html"
                             }
                         })

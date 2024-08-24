@@ -109,7 +109,9 @@
                                 </svg></span>
                             <p class="fw-semibold">Upload your Transaction receipt!</p>
                         </label>
-                        <input class="input" name="text" id="file" type="file" />
+                        <!-- <input class="input" name="text" id="file" type="file" /> -->
+                        <input class="input" name="text" id="file" type="file" accept="image/*" style="display:none;" />
+                        <img id="imagePreview" alt="Image Preview" style="display:none;" width="70px" height="70px">
                         <div class="my-3">
                             <input type="text" class="form-control py-3"
                                 placeholder="Enter Your Transaction ID or Account No" id="transactionID">
@@ -140,25 +142,16 @@
 
         </div>
     </div>
-    <!-- Loader HTML -->
-    <div class="loader-wrapper" id="loader">
+     <!-- Loader HTML -->
+     <div class="loader-wrapper" id="loader">
         <div class="loader"></div>
     </div>
-    <script>
-
-
-       
-    </script>
     <script src="./config.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script src="./js/payment.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-
-       
-    </script>
 
 </body>
 
