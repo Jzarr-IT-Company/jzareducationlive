@@ -33,154 +33,108 @@ const decodedP = atob(p);
 const fileInput = document.querySelector("#file");
 const imagePreview = document.querySelector("#imagePreview");
 
-fileInput.addEventListener("change", function () {
-    const imageFile = fileInput.files[0]; // Get the selected file
 
-    if (imageFile) {
+let image;
+
+fileInput.addEventListener("change", function () {
+    if (fileInput.files.length > 0) {
+        const imageFile = fileInput.files[0];
         const reader = new FileReader();
 
         reader.onload = function (e) {
-            imagePreview.src = e.target.result; // Set the preview image source
-            imagePreview.style.display = 'block'; // Display the image
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = 'block';
         };
 
-        reader.readAsDataURL(imageFile); // Convert the file to a data URL
+        reader.readAsDataURL(imageFile);
+
+        const formData = new FormData();
+        formData.append('file', imageFile);
+
+        axios.post('https://images-apis-cklz.vercel.app/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(response => {
+                console.log(response.data.url)
+                image = response.data.url;
+            })
+            .catch(error => {
+                console.error('Error uploading image:', error);
+            });
+    } else {
+        console.log('No file selected.');
     }
 });
 
 
 const useramount = decodedAc ? decodedAc : 2700;
-document.querySelector("#totalFee").innerHTML = useramount;
-document.querySelector('#uploadBtn').addEventListener('click', function () {
-    document.getElementById('loader').style.display = 'flex';
-    const fileInput = document.querySelector("#file");
-    const transactionsId = document.querySelector("#transactionID");
-    const accountName = document.querySelector("#accountName");
-    const files = fileInput.files;
-    if (files.length > 0) {
-        const imageFile = files[0];
-        const formData = new FormData();
-        formData.append('transactionImage', imageFile);
-        // formData.append('transactionsId', transactionsId);
-        // formData.append('accountName', accountName);
-        // formData.append('useramount', useramount);
-        axios.post('https://paymnet-method-manually2.vercel.app/upload', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            }
-        })
-            .then(response => {
-                document.getElementById('loader').style.display = 'none';
 
-                console.log('Response from server:', response.data);
-                if (response.data.status === 200) {
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: "TRANSACTION SUCCESS FULLY",
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then((result) => {
-                        if (result) {
-                            window.location.href = "./success.html"
-                        }
-                    })
-                }
-            })
-            .catch(error => {
-                document.getElementById('loader').style.display = 'none';
-                // console.log(error.response.status === 400)
-                // if (error === 400) {
-                //     Swal.fire({
-                //         position: "center",
-                //         icon: "error",
-                //         title: "Transaction receipt failed.",
-                //         showConfirmButton: false,
-                //         timer: 1500
-                //     }).then((result) => {
-                //         if (result) {
-                //         }
-                //     })
-                // } else if (error === 404) {
-                //     Swal.fire({
-                //         position: "center",
-                //         icon: "error",
-                //         title: "Transaction receipt failed.",
-                //         showConfirmButton: false,
-                //         timer: 1500
-                //     }).then((result) => {
-                //         if (result) {
-                //         }
-                //     })
-                // }
-                // else {
-                //     Swal.fire({
-                //         position: "center",
-                //         icon: "warning",
-                //         title: "Please send your transaction recipt on whatsapp to verification. This course is temporary allowed",
-                //         showConfirmButton: false,
-                //         timer: 1500
-                //     }).then((result) => {
-                //         if (result) {
-                //             // window.location.href = './success.html'
-                //         }
-                //     })
-                // }
-                switch (error.response.status) {
-                    case 400:
-                        document.getElementById('loader').style.display = 'none';
-                        Swal.fire({
-                            position: "center",
-                            icon: "error",
-                            title: "Transaction receipt failed.",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((result) => {
-                            if (result) {
-                            }
-                        })
-                        break;
-                    case 404:
-                        document.getElementById('loader').style.display = 'none';
-                        Swal.fire({
-                            position: "center",
-                            icon: "error",
-                            title: "Transaction receipt not found.",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((result) => {
-                            if (result) {
-                            }
-                        })
-                        break;
-                    default:
-                        document.getElementById('loader').style.display = 'none';
-                        Swal.fire({
-                            position: "center",
-                            icon: "warning",
-                            title: "Please send your transaction recipt on whatsapp to verification. This course is temporary allowed",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((result) => {
-                            if (result) {
-                                window.location.href = './success.html'
-                            }
-                        })
-                        break;
+document.querySelector("#totalFee").innerHTML = useramount;
+const transactionsId = document.querySelector("#transactionID");
+const accountName = document.querySelector("#accountName");
+document.querySelector('#uploadBtn').addEventListener('click', function () {
+    // Show the loader while the request is being processed
+    document.getElementById('loader').style.display = 'flex';
+
+    // Check if the image variable is defined
+    if (image) {
+        console.log(image); // Log the image URL or data for debugging
+
+        // Make the POST request using axios
+        axios.post('http://localhost:8888/addPaymentDetail', {
+            image: image,
+            email: decodedE,
+            phone: decodedP,
+            amount: useramount,
+            transactionsId: transactionsId.value, // Ensure transactionsId is a DOM element with a value
+            accountName: accountName.value // Ensure accountName is a DOM element with a value
+        }).then((res) => {
+            // Hide the loader once the request is complete
+            document.getElementById('loader').style.display = 'none';
+
+            // Check the response status and display a success message
+            console.log(res.data.status); // Log the response status for debugging
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "TRANSACTION SUCCESSFULLY",
+                showConfirmButton: false,
+                timer: 1500
+            }).then((result) => {
+                // Redirect to the success page if the user acknowledges the message
+                if (result) {
+                    window.location.href = "./success.html";
                 }
             });
+        }).catch((error) => {
+            // Handle any errors that occur during the request
+            console.error("Error during POST request:", error);
+            document.getElementById('loader').style.display = 'none';
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "TRANSACTION FAILED",
+                text: "An error occurred while processing your request.",
+                showConfirmButton: true
+            });
+        });
+
+        // Optionally store a flag in localStorage
+        localStorage.setItem("manuallyPaymentBtn", true);
     } else {
+        // Handle the case where the image is not defined
         document.getElementById('loader').style.display = 'none';
+        console.warn("No image provided.");
         Swal.fire({
             position: "center",
-            icon: "warning",
-            title: "No file selected.",
-            showConfirmButton: false,
-            timer: 1500
-        })
-        console.log('No file selected.');
+            icon: "error",
+            title: "No image provided.",
+            text: "Please try again",
+            showConfirmButton: true
+        });
     }
-    localStorage.setItem("manuallyPaymentBtn", true);
 });
 
 
