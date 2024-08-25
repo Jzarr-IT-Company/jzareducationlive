@@ -25,11 +25,15 @@ const urlParam = new URLSearchParams(queryString);
 const ac = urlParam.get('ac'); // 'ac' parameter ko get karein
 const e = urlParam.get('e');   // 'e' parameter ko get karein
 const p = urlParam.get('p');   // 'p' parameter ko get karein
+const c = urlParam.get('cns');
+
 
 // Kyunki 'ac' parameter base64 encoded hai, hum isko decode karte hain
 const decodedAc = atob(ac);
 const decodedE = atob(e);
 const decodedP = atob(p);
+const decodedc = atob(c);
+console.log(decodedc)
 const fileInput = document.querySelector("#file");
 const imagePreview = document.querySelector("#imagePreview");
 
@@ -89,7 +93,8 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
             phone: decodedP,
             amount: useramount,
             transactionsId: transactionsId.value, // Ensure transactionsId is a DOM element with a value
-            accountName: accountName.value // Ensure accountName is a DOM element with a value
+            accountName: accountName.value, // Ensure accountName is a DOM element with a value
+            coursesname:decodedc
         }).then((res) => {
             // Hide the loader once the request is complete
             document.getElementById('loader').style.display = 'none';

@@ -92,6 +92,7 @@ const sid = urlObj.searchParams.get('id');
 const cn = urlObj.searchParams.get('cn');
 let email;
 let phone;
+let courses;
 updatedLocalstorage(cn)
 
 document.getElementById('loader').style.display = 'flex';
@@ -119,9 +120,11 @@ const getStudentData = () => {
             }
         }).then((res) => {
             let data = res.data.data;
+            console.log(data)
             data.map((data) => {
                 email = data.email;
                 phone = data.phone;
+                courses=data.courses
             })
         })
 }
@@ -145,7 +148,7 @@ document.querySelector("#buyCourse").addEventListener('click', async () => {
         axios.post('https://main-server-zeta.vercel.app/courseUpdate', { id: idCookie, courses: upcourses })
             .then(response => {
                 document.getElementById('loader').style.display = 'none';
-                window.location.href=`./payment.html?ac=${btoa(2700)}&e=${btoa(email)}&p=${btoa(phone)}`
+                window.location.href=`./payment.html?ac=${btoa(2700)}&e=${btoa(email)}&p=${btoa(phone)}&cns=${btoa(cn)}`
                 // window.location.href = `https://payment-gateway-beryl.vercel.app/?ac=2700&e=${email}`
                 // window.location.href = `https://payment-gateway-beryl.vercel.app/?ac=${encodeURIComponent("2700")}&e=${encodeURIComponent(email)}&p=${encodeURIComponent(phone)}`;
             })
