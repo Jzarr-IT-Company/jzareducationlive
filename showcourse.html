@@ -13,10 +13,15 @@
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./css/loader.css">
+    <link rel="stylesheet" href="./css/button.css">
     <style>
+        .mainSidebarDiv{
+            height: 200vh !important;
+            overflow: auto !important;
+        }
         /* Ensure the sidebar takes up the full viewport height */
         .sidebar {
-            height: 100vh;
+            height: 350px !important;
             /* Full viewport height */
             overflow-y: auto !important;
             /* Enable vertical scrolling */
@@ -89,7 +94,7 @@
                 </button>
                 <a href="#" class="d-flex ms-3"><img src="./Assets/logo.svg" width="100" alt="logo"></a>
             </div>
-            
+
         </div>
     </nav>
 
@@ -97,23 +102,34 @@
         <div class="row">
             <!-- Sidebar -->
             <div
-                class="col-lg-3 col-md-4 d-none d-lg-block d-md-block d-xl-block d-xxlg-block border position-fixed  bg-light">
+                class="col-lg-3 col-md-4 d-none d-lg-block d-md-block d-xl-block d-xxlg-block border position-fixed  bg-light"  style="overflow: auto; height: 200vh;">
+                <div class="py-4 px-2">
+                    <a href="./dashboard.html" class=" text-start text-dark text-decoration-none"
+                        id="dashboardLink"><strong>Go To Dashboard</strong></a>
+                </div>
+                <h4 id="courseName">Frontend</h4>
                 <div class="sidebar my-4">
-                    <div class="">
-                        <a href="./dashboard.html" class="text-start text-dark text-decoration-none"
-                            id="dashboardLink"><strong>Go To Dashboard</strong></a>
-                    </div>
-                    <h4 id="courseName">Frontend</h4>
-                    <div class="" id="selectedCourse">
+                    <div class="" id="selectedCourse" >
 
                     </div>
                 </div>
+                <!-- <div class="">
+                    <input type="text" class="form-control border" placeholder="Confused? Type here to search...">
+                    <div class="" >
+                        <button class="bttn">Search</button>
+                        <button>Send</button>
+                    </div>
+                </div> -->
             </div>
+        </div>
+        
+
+
             <!-- Main Content -->
             <div class="col-lg-9 col-md-8 offset-lg-3 offset-md-4">
                 <div class="container mt-4">
                     <div class="row">
-                        <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
+                        <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
                             <div class="card">
                                 <div id="video-container">
                                     <video id="myVideo" controls width="100%">
@@ -162,148 +178,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script>
-
-
-
-        const video = document.getElementById('myVideo');
-
-        video.controlsList = "nodownload";
-
-        video.oncontextmenu = function (event) {
-            event.preventDefault();
-            return false;
-        };
-
-        video.onmousedown = function (event) {
-            if (event.button === 2) {
-                event.preventDefault();
-                return false;
-            }
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const currentPath = window.location.pathname;
-
-            const setActiveLink = () => {
-                const links = document.querySelectorAll('.sidebar a');
-
-                links.forEach(link => {
-                    if (link.getAttribute('href') === currentPath) {
-                        link.classList.add('active');
-                        localStorage.setItem('activeLink', link.id);
-                    } else {
-                        link.classList.remove('active');
-                    }
-                });
-            };
-
-            setActiveLink();
-
-            const activeLinkId = localStorage.getItem('activeLink');
-            if (activeLinkId) {
-                const activeLink = document.getElementById(activeLinkId);
-                if (activeLink) {
-                    activeLink.classList.add('active');
-                }
-            }
-        });
-
-        const url = window.location.href;
-
-        const urlObj = new URL(url);
-
-        const id = urlObj.searchParams.get('cid');
-        const sid = urlObj.searchParams.get('id');
-        document.getElementById('loader').style.display = 'flex';
-
-        axios.post('https://main-server-zeta.vercel.app/getCourseById', { id: id })
-            .then(res => {
-                document.getElementById('loader').style.display = 'none';
-                if (res.data.status === 200) {
-                    let courses = res.data.data;
-
-                    courses.map(async (data) => {
-
-                        if (!sid) {
-                            document.querySelector('#myVideo').src = data.coursevideos[0].url;
-                            document.querySelector('#courseDescrription').innerHTML = data.coursedescription;
-                            document.querySelector("#courseName").innerHTML = data.coursename;
-                        }
-
-                        data.coursevideos.map((video) => {
-                            // selectedCourseBar
-                            document.querySelector('#selectedCourse').innerHTML += `
-                        <a href="#" class="text-dark text-decoration-none text-start text-capitalize" id="link-class1"
-                        onclick="updateUrlAndHighlight('${video._id}', this)">
-                        <strong>${video.title}</strong></a>`;
-                        document.querySelector('#selectedCourseBar').innerHTML += `
-                        <a href="#" class="text-dark text-decoration-none text-start text-capitalize" id="link-class1"
-                        onclick="updateUrlAndHighlight('${video._id}', this)">
-                        <strong>${video.title}</strong></a>`;
-                        });
-
-                        if (sid) {
-                            const filteredVideo = data.coursevideos.find(video => video._id === sid);
-                            if (filteredVideo) {
-                                document.querySelector('#myVideo').src = filteredVideo.url;
-                                document.querySelector("#courseName").innerHTML = data.coursename;
-                                document.querySelector('#courseDescrription').innerHTML = data.coursedescription;
-                            }
-                        }
-                    });
-
-                }
-            })
-            .catch(error => {
-                document.getElementById('loader').style.display = 'none';
-
-                console.error('Error fetching data:', error);
-            });
-
-        function updateUrlAndHighlight(newId, clickedElement) {
-            let currentUrl = new URL(window.location.href);
-
-            currentUrl.searchParams.delete('id');
-            currentUrl.searchParams.append('id', newId);
-
-            history.pushState(null, '', currentUrl.toString());
-
-            document.querySelectorAll('.text-dark').forEach(link => {
-                link.classList.remove('active-link');
-            });
-            clickedElement.classList.add('active-link');
-
-            axios.post('https://main-server-zeta.vercel.app/getCourseById', { id: id })
-                .then(res => {
-
-                    let courses = res.data.data;
-
-                    courses.map(async (data) => {
-                        const filteredVideo = data.coursevideos.find(video => video._id === newId);
-                        if (filteredVideo) {
-                            document.querySelector('#myVideo').src = filteredVideo.url;
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-        }
-
-        const style = document.createElement('style');
-        style.innerHTML = `
-    .active-link {
-        color: #007bff; /* Example color for the active link */
-        font-weight: bold;
-    }
-`;
-        document.head.appendChild(style);
-
-
-
-    </script>
-
+        <script src="./js/videoJS.js"></script>
+        <script src="./js/commint.js"></script>
 </body>
 
 </html>
