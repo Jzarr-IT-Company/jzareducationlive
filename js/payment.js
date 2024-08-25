@@ -61,10 +61,10 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
         const imageFile = files[0];
         const formData = new FormData();
         formData.append('transactionImage', imageFile);
-        formData.append('transactionsId', transactionsId);
-        formData.append('accountName', accountName);
-        formData.append('useramount', useramount);
-        axios.post('http://localhost:8085/upload', formData, {
+        // formData.append('transactionsId', transactionsId);
+        // formData.append('accountName', accountName);
+        // formData.append('useramount', useramount);
+        axios.post('https://paymnet-method-manually2.vercel.app/upload', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }
