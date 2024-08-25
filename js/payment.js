@@ -83,7 +83,7 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
         console.log(image); // Log the image URL or data for debugging
 
         // Make the POST request using axios
-        axios.post('http://localhost:8888/addPaymentDetail', {
+        axios.post('https://main-server-zeta.vercel.app/addPaymentDetail', {
             image: image,
             email: decodedE,
             phone: decodedP,
