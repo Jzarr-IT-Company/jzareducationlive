@@ -61,13 +61,19 @@ document.querySelector("#login").addEventListener("click", () => {
             })
             .catch(error => {
                 document.getElementById('loader').style.display = 'none';
-                console.error('Error logging in:', error);
-
-                Swal.fire({
-                    title: "Login failed. Please check your credentials.",
-                    text: error.message,
-                    icon: "error"
-                })
+                if (error.response.status === 400) {
+                    Swal.fire({
+                        title: "Login failed",
+                        text: "Wrong credentials.",
+                        icon: "error"
+                    });
+                } else if (error.response.status === 404) {
+                    Swal.fire({
+                        title: "Login failed.",
+                        text: "User Not Found!",
+                        icon: "error"
+                    });
+                }
             });
     }
 });
