@@ -77,6 +77,24 @@ const isActiveToggle = async () => {
 
 isActiveToggle();
 
+// Function to check isPayment status and refresh the page
+function autoRefreshPage() {
+    const isPayment = JSON.parse(localStorage.getItem('paymnetPay')); // Get the value of isPayment from localStorage
+
+    if (isPayment) {
+        // Set interval to refresh the page every 3 hours (10800000 milliseconds)
+        const refreshInterval = setInterval(() => {
+            if (JSON.parse(localStorage.getItem('isPayment'))) {
+                window.location.reload(); // Refresh the page
+            } else {
+                clearInterval(refreshInterval); // Stop refreshing if isPayment becomes false
+            }
+        }, 10800000); // 3 hours in milliseconds 
+    }
+}
+
+// Initial check and call the function
+autoRefreshPage();
 
 
 const getData = async () => {
