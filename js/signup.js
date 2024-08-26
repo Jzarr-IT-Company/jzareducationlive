@@ -34,17 +34,17 @@ document.querySelector("#createAccount").addEventListener("click", () => {
         phoneError.textContent = 'Phone number must be exactly 11 digits.';
         document.getElementById('phoneError').innerHTML="invalid phone number"; // Add Bootstrap invalid class for visual feedback
     } 
-    const nameRegex = /^[a-zA-Z]{2,}$/;
-    if (!nameRegex.test(fname)) {
-        document.querySelector("#fnameError").innerText = 'First name must contain at least 2 alphabetic characters.';
-        isValid = false;
-    }
+    // const nameRegex = /^[a-zA-Z]{2,}$/;
+    // if (!nameRegex.test(fname)) {
+    //     document.querySelector("#fnameError").innerText = 'First name must contain at least 2 alphabetic characters.';
+    //     isValid = false;
+    // }
 
-    // Last Name Validation
-    if (!nameRegex.test(lname)) {
-        document.querySelector("#lnameError").innerText = 'Last name must contain at least 2 alphabetic characters.';
-        isValid = false;
-    }
+    // // Last Name Validation
+    // if (!nameRegex.test(lname)) {
+    //     document.querySelector("#lnameError").innerText = 'Last name must contain at least 2 alphabetic characters.';
+    //     isValid = false;
+    // }
 
     // Email Validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

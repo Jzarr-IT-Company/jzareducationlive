@@ -50,9 +50,10 @@ fileInput.addEventListener("change", function () {
             imagePreview.style.display = 'block';
         };
 
-// "If you're facing any issues with the payment, please try clearing your browser's cache and attempt the payment again."
+        // "If you're facing any issues with the payment, please try clearing your browser's cache and attempt the payment again."
 
         reader.readAsDataURL(imageFile);
+        let loadingPercentage = 0;
 
         const formData = new FormData();
         formData.append('file', imageFile);
@@ -60,11 +61,22 @@ fileInput.addEventListener("change", function () {
         axios.post('https://images-apis-cklz.vercel.app/upload', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
+            },
+            onUploadProgress: (progressEvent) => {
+                // Calculate the upload progress as a percentage
+                loadingPercentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                console.log(`Upload progress: ${loadingPercentage}%`);
+
+                // You can update your UI here to show the loading percentage
+                document.getElementById('progress').innerText = `${loadingPercentage}%`;
             }
         })
             .then(response => {
                 console.log(response.data.url)
                 image = response.data.url;
+                // Set the loading percentage to 100% when upload is complete
+                loadingPercentage = 100;
+                document.getElementById('progress').innerText = `${loadingPercentage}%`;
             })
             .catch(error => {
                 console.error('Error uploading image:', error);
@@ -96,7 +108,7 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
             amount: useramount,
             transactionsId: transactionsId.value, // Ensure transactionsId is a DOM element with a value
             accountName: accountName.value, // Ensure accountName is a DOM element with a value
-            coursesname:decodedc
+            coursesname: decodedc
         }).then((res) => {
             // Hide the loader once the request is complete
             document.getElementById('loader').style.display = 'none';
@@ -112,7 +124,8 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
             }).then((result) => {
                 // Redirect to the success page if the user acknowledges the message
                 if (result) {
-                    window.location.href = "./success.html";
+                    window.location.href = "./dashboard.html";
+                    // window.location.href = "./verification.html";
                 }
             });
         }).catch((error) => {
@@ -127,9 +140,6 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
                 showConfirmButton: true
             });
         });
-
-        // Optionally store a flag in localStorage
-        localStorage.setItem("manuallyPaymentBtn", true);
     } else {
         // Handle the case where the image is not defined
         document.getElementById('loader').style.display = 'none';
