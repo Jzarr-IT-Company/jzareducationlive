@@ -115,11 +115,15 @@ const useramount = decodedAc ? decodedAc : 2700;
 document.querySelector("#totalFee").innerHTML = useramount;
 const transactionsId = document.querySelector("#transactionID");
 const accountName = document.querySelector("#accountName");
-document.querySelector('#uploadBtn').addEventListener('click', function () {
-    // Show the loader while the request is being processed
-    document.getElementById('loader').style.display = 'flex';
+document.querySelector('#uploadBtn').addEventListener('click', async function () {
+
+    const allTemData = localStorage.getItem("newCoursesTem")
+    console.log(allTemData)
+    deleteFromLocalStorage(allTemData);
 
     // Check if the image variable is defined
+    // Show the loader while the request is being processed
+    document.getElementById('loader').style.display = 'flex';
     if (image) {
         console.log(image); // Log the image URL or data for debugging
 
@@ -132,8 +136,9 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
             transactionsId: transactionsId.value, // Ensure transactionsId is a DOM element with a value
             accountName: accountName.value, // Ensure accountName is a DOM element with a value
             coursesname: decodedc,
-            id:idCookie
+            id: idCookie
         }).then((res) => {
+            // deleteFromLocalStorage(allTemData);
             // Hide the loader once the request is complete
             document.getElementById('loader').style.display = 'none';
 
@@ -177,8 +182,39 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
             showConfirmButton: true
         });
     }
-});
 
+});
+// Function to delete a value from LocalStorage based on a match
+const deleteFromLocalStorage = (valuesToRemove) => {
+
+
+    console.log(valuesToRemove);
+
+    // // Retrieve existing data from LocalStorage
+    let existingData = JSON.parse(localStorage.getItem(idCookie)) || [];
+
+    // // Filter out the values to remove
+    if(existingData){
+        existingData = existingData.filter(item => !valuesToRemove.includes(item));
+    }else{
+        console.log("ERROR FROM PAYMNET ")
+        return
+    }
+
+    console.log(existingData);
+    // // Save the updated data back to LocalStorage
+    localStorage.setItem(idCookie, JSON.stringify(existingData));
+    localStorage.removeItem('localPaymentBtn')
+    // let emptyCourses = [];
+    axios.post('https://main-server-zeta.vercel.app/courseUpdate', { id: idCookie, courses: existingData })
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            console.error('Error', error.message);
+        });
+    console.log("Updated LocalStorage data:", existingData);
+};
 
 document.querySelector('#localPaymentBtn').addEventListener('click', function () {
     window.location.href = `https://payment-gateway-beryl.vercel.app/?ac=${encodeURIComponent(useramount)}&e=${encodeURIComponent(decodedE)}&p=${encodeURIComponent(decodedP)}`;

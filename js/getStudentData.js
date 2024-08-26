@@ -10,6 +10,73 @@ const idCookie = getCookie('id');
 const isCourse = getCookie('isCourse');
 const getCourses = JSON.parse(localStorage.getItem("courses"));
 
+// const isAvtiveToggel = async () => {
+//     let active;
+//     axios.get(`https://main-server-zeta.vercel.app/getStudentData/${idCookie}`,
+//         {
+//             headers: {
+//                 'Authorization': `Bearer ${tokenCookie}`
+//             }
+//         }).then((res) => {
+//             res.data.data.map((data) => {
+//                 active = data.isActive
+//                 console.log(data.isActive)
+//                 if(data.isActive){
+
+//                     localStorage.removeItem("manuallyPaymentBtn")
+//                 }
+//             })
+//         })
+//     console.log(active)
+// }
+// isAvtiveToggel()
+
+
+
+const isActiveToggle = async () => {
+    let active;
+
+    try {
+        const res = await axios.get(`https://main-server-zeta.vercel.app/getStudentData/${idCookie}`, {
+            headers: {
+                'Authorization': `Bearer ${tokenCookie}`
+            }
+        });
+
+        res.data.data.forEach((data) => {
+            active = data.isActive;
+            console.log(data.courses)
+            localStorage.setItem(idCookie,JSON.stringify(data.courses))
+            console.log(data);
+            if (data.isActive) {
+                // Remove the item from localStorage
+                localStorage.removeItem("paymnetPay");
+                window.location.reload();
+                
+                // Make the API call if isActive is true
+                axios.post('http://localhost:8888/updateIsNotActive', {
+                    id: idCookie
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${tokenCookie}`
+                    }
+                }).then((response) => {
+                    localStorage.removeItem('paymnetPay')
+                    console.log('API call was successful', response.data);
+                }).catch((error) => {
+                    console.error('API call failed', error);
+                });
+            }
+        });
+
+        console.log(active);
+    } catch (error) {
+        console.error('Error fetching student data:', error);
+    }
+};
+
+isActiveToggle();
+
 
 
 const getData = async () => {
@@ -28,9 +95,13 @@ const getData = async () => {
                 }
             });
         if (response.data.status === 200) {
+            // isActive
+
             let getData = await response.data.data;
             getData.map((data) => {
                 getcourses(data._id, data.courses)
+                console.log(data)
+
                 if (nemailElement && myemail) {
                     nemailElement.innerHTML = data.email;
                     myemail.innerHTML = data.email;
@@ -55,7 +126,7 @@ const getData = async () => {
 }
 getData()
 
-let courseNotFound=  document.querySelector("#courseNotFound");
+let courseNotFound = document.querySelector("#courseNotFound");
 async function getcourses(id, name) {
 
     if (id) {
@@ -69,7 +140,7 @@ async function getcourses(id, name) {
             })
             .then(async (response) => {
                 document.getElementById('loader').style.display = 'none';
-                if (response) {
+                if (response.status === 200) {
                     let getCourses = await response.data.data;
                     let showBuyCourses = document.querySelector('#showBuyCourses');
                     getCourses.map((data) => {
@@ -98,22 +169,38 @@ async function getcourses(id, name) {
     }
 }
 getcourses()
-const paymnetPay = localStorage.getItem('paymnetPay')
-const clearCookiesStoreCourses = () => {
-    if (!paymnetPay) {
-        const allTemData = localStorage.getItem("newCoursesTem")
-        let existingData = JSON.parse(localStorage.getItem(idCookie)) || [];
-        existingData = existingData.filter(item => !allTemData.includes(item));
-        localStorage.setItem(idCookie, JSON.stringify(existingData));
-        localStorage.removeItem('newCoursesTem')
-        axios.post('https://main-server-zeta.vercel.app/courseUpdate', { id: idCookie, courses: existingData })
-            .then(response => {
-            })
-            .catch(error => {
-                console.error('Error', error.message);
-            });
-    }
+// const paymnetPay = localStorage.getItem('localPaymentBtn')
+// const clearCookiesStoreCourses = () => {
+//     if (!paymnetPay) {
+//         const allTemData = localStorage.getItem("newCoursesTem")
+//         let existingData = JSON.parse(localStorage.getItem(idCookie)) || [];
+//         if(existingData){
+//             existingData = existingData.filter(item => !allTemData.includes(item));
+//         }else{
+//             console.log("ERROR FORM GETSTUDENT ")
+//             return;
+//         }
+//         localStorage.setItem(idCookie, JSON.stringify(existingData));
+//         localStorage.removeItem('newCoursesTem')
+//         axios.post('https://main-server-zeta.vercel.app/courseUpdate', { id: idCookie, courses: existingData })
+//             .then(response => {
+//             })
+//             .catch(error => {
+//                 console.error('Error', error.message);
+//             });
+//     }
+// }
+// 
+const manuallyPaymentBtn = localStorage.getItem('paymnetPay')
+
+if (manuallyPaymentBtn) {
+    document.querySelector("#alert").innerHTML = `
+     <div class="alert alert-info" role="alert">
+            The course will be available on this dashboard soon after payment verification. Please wait and return to this dashboard!
+          </div>
+    `
 }
 
 
-clearCookiesStoreCourses()
+// clearCookiesStoreCourses()
+

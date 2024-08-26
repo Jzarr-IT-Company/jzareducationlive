@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         timer: 1500
                     }).then((result) => {
                         if (result) {
-                            window.location.href=`./payment.html?ac=${btoa(totalCost)}&e=${btoa(email)}&p=${btoa(phone)}`
+                            window.location.href=`./payment.html?ac=${btoa(totalCost)}&e=${btoa(email)}&p=${btoa(phone)}&cns=${btoa(selectedCourses)}`
                             // window.location.href='./success.html'
                             // window.location.href = `https://payment-gateway-beryl.vercel.app/?ac=${totalCost}`
                             // window.location.href = `https://payment-gateway-beryl.vercel.app/?ac=${encodeURIComponent(totalCost)}&e=${encodeURIComponent(email)}&p=${encodeURIComponent(phone)}`;

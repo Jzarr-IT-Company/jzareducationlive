@@ -85,6 +85,8 @@ const idCookie = getCookie('id');
 const isCourse = getCookie('isCourse');
 const tokenCookie = getCookie('token');
 const token = getCookie('token');
+console.log(tokenCookie)
+
 const url = window.location.href;
 const urlObj = new URL(url);
 const id = urlObj.searchParams.get('cid');
@@ -166,7 +168,7 @@ document.querySelector("#buyCourse").addEventListener('click', async () => {
     }
 })
 
-const paymnetPay = localStorage.getItem('paymnetPay')
+const paymnetPay = localStorage.getItem('localPaymentBtn')
 const clearCookiesStoreCourses = () => {
     if (!paymnetPay) {
         const allTemData = localStorage.getItem("newCoursesTem")
