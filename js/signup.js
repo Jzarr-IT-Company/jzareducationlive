@@ -26,14 +26,14 @@ document.querySelector("#createAccount").addEventListener("click", () => {
     document.querySelector("#emailError").innerText = '';
     document.querySelector("#passError ").innerText = '';
 
-    // Remove non-digit characters
-    const cleanedPhone = phoneInput.replace(/\D/g, '');
+    // // Remove non-digit characters
+    // const cleanedPhone = phoneInput.replace(/\D/g, '');
 
-    // Validate phone number length
-    if (cleanedPhone.length !== 11) {
-        phoneError.textContent = 'Phone number must be exactly 11 digits.';
-        document.getElementById('phoneError').innerHTML="invalid phone number"; // Add Bootstrap invalid class for visual feedback
-    } 
+    // // Validate phone number length
+    // if (cleanedPhone.length !== 11) {
+    //     phoneError.textContent = 'Phone number must be exactly 11 digits.';
+    //     document.getElementById('phoneError').innerHTML="invalid phone number"; // Add Bootstrap invalid class for visual feedback
+    // } 
     // const nameRegex = /^[a-zA-Z]{2,}$/;
     // if (!nameRegex.test(fname)) {
     //     document.querySelector("#fnameError").innerText = 'First name must contain at least 2 alphabetic characters.';
