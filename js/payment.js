@@ -214,7 +214,7 @@ const deleteFromLocalStorage = (valuesToRemove) => {
     console.log("Updated LocalStorage data:", existingData);
 };
 
-document.querySelector('#localPaymentBtn').addEventListener('click', function () {
-    window.location.href = `https://payment-gateway-beryl.vercel.app/?ac=${encodeURIComponent(useramount)}&e=${encodeURIComponent(decodedE)}&p=${encodeURIComponent(decodedP)}`;
-    localStorage.setItem("localPaymentBtn", true);
-});
+// document.querySelector('#localPaymentBtn').addEventListener('click', function () {
+//     window.location.href = `https://payment-gateway-beryl.vercel.app/?ac=${encodeURIComponent(useramount)}&e=${encodeURIComponent(decodedE)}&p=${encodeURIComponent(decodedP)}`;
+//     localStorage.setItem("localPaymentBtn", true);
+// });
