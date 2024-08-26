@@ -304,7 +304,7 @@
             if (!paymnetPay) {
                 const allTemData = localStorage.getItem("newCoursesTem")
                 let existingData = JSON.parse(localStorage.getItem(idCookie)) || [];
-                if(allTemData){
+                if (allTemData) {
                     existingData = existingData.filter(item => !allTemData.includes(item));
                     localStorage.setItem(idCookie, JSON.stringify(existingData));
                     localStorage.removeItem('newCoursesTem')

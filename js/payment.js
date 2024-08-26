@@ -50,6 +50,8 @@ fileInput.addEventListener("change", function () {
             imagePreview.style.display = 'block';
         };
 
+// "If you're facing any issues with the payment, please try clearing your browser's cache and attempt the payment again."
+
         reader.readAsDataURL(imageFile);
 
         const formData = new FormData();
