@@ -148,6 +148,7 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
             }).then((result) => {
                 // Redirect to the success page if the user acknowledges the message
                 if (result) {
+                    localStorage.setItem("paymnetPay", true)
                     window.location.href = "./dashboard.html";
                     // window.location.href = "./verification.html";
                 }
