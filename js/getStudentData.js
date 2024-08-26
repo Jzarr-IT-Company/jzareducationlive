@@ -54,7 +54,7 @@ const isActiveToggle = async () => {
                 window.location.reload();
                 
                 // Make the API call if isActive is true
-                axios.post('http://localhost:8888/updateIsNotActive', {
+                axios.post('https://main-server-zeta.vercel.app/updateIsNotActive', {
                     id: idCookie
                 }, {
                     headers: {
