@@ -2,30 +2,45 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const cn = urlParams.get('cn');
-    updatedLocalstorage(cn);
+    saveCourse(cn);
 
 })
 
 
 function updatedLocalstorage(cn) {
-    // console.log(cn)
-    // let courses = JSON.parse(localStorage.getItem(idCookie)) || [];
-    // let newCourseTem = JSON.parse(localStorage.getItem("newCoursesTem")) || [];
-    // newCourseTem.push(cn)
-    // localStorage.setItem(idCookie, JSON.stringify(courses));
-    // localStorage.setItem("newCoursesTem", JSON.stringify(newCourseTem));
-
-
     try {
         // Retrieve the existing courses from localStorage or initialize to an empty array
         let courses = JSON.parse(localStorage.getItem(idCookie)) || [];
         let newCourseTem = JSON.parse(localStorage.getItem("newCoursesTem")) || [];
 
         // Check if the course already exists in the array to prevent duplicates
-        if (!courses.includes(cn)) {
+        if (courses.includes(cn)) {
             // Add the new course to the array
             courses.push(cn);
             newCourseTem.push(cn)
+            // Save the updated array back to localStorage
+            localStorage.setItem(idCookie, JSON.stringify(courses));
+            localStorage.setItem("newCoursesTem", JSON.stringify(newCourseTem));
+        } else {
+            return
+        }
+    } catch (error) {
+        console.log('Error saving course:', error.message);
+    }
+
+}
+
+const saveCourse = async (courseName) => {
+    try {
+        // Retrieve the existing courses from localStorage or initialize to an empty array
+        let courses = JSON.parse(localStorage.getItem(idCookie)) || [];
+        let newCourseTem = JSON.parse(localStorage.getItem("newCoursesTem")) || [];
+
+        // Check if the course already exists in the array to prevent duplicates
+        if (!courses.includes(courseName)) {
+            // Add the new course to the array
+            courses.push(courseName);
+            newCourseTem.push(courseName)
             // Save the updated array back to localStorage
             localStorage.setItem(idCookie, JSON.stringify(courses));
             localStorage.setItem("newCoursesTem", JSON.stringify(newCourseTem));
@@ -42,37 +57,7 @@ function updatedLocalstorage(cn) {
     } catch (error) {
         console.log('Error saving course:', error.message);
     }
-
 }
-
-// const saveCourse = async (courseName) => {
-//     try {
-//         // Retrieve the existing courses from localStorage or initialize to an empty array
-//         let courses = JSON.parse(localStorage.getItem(idCookie)) || [];
-//         let newCourseTem = JSON.parse(localStorage.getItem("newCoursesTem")) || [];
-
-//         // Check if the course already exists in the array to prevent duplicates
-//         if (!courses.includes(courseName)) {
-//             // Add the new course to the array
-//             courses.push(courseName);
-//             newCourseTem.push(courseName)
-//             // Save the updated array back to localStorage
-//             localStorage.setItem(idCookie, JSON.stringify(courses));
-//             localStorage.setItem("newCoursesTem", JSON.stringify(newCourseTem));
-//         } else {
-//             // Swal.fire({
-//             //     position: "center",
-//             //     icon: "warning",
-//             //     title: "Course already exists!",
-//             //     showConfirmButton: false,
-//             //     timer: 1500
-//             // })
-//             return
-//         }
-//     } catch (error) {
-//         console.log('Error saving course:', error.message);
-//     }
-// }
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -168,19 +153,53 @@ document.querySelector("#buyCourse").addEventListener('click', async () => {
     }
 })
 
-const paymnetPay = localStorage.getItem('localPaymentBtn')
+// const paymnetPay = localStorage.getItem('localPaymentBtn')
+// const clearCookiesStoreCourses = () => {
+//     if (!paymnetPay) {
+//         const allTemData = localStorage.getItem("newCoursesTem")
+//         let existingData = JSON.parse(localStorage.getItem(idCookie)) || [];
+//         if(existingData){
+//             existingData = existingData.filter(item => !allTemData.includes(item));
+//         }else{
+//             return;
+//         }
+//         localStorage.setItem(idCookie, JSON.stringify(existingData));
+//         localStorage.removeItem('newCoursesTem')
+//         axios.post('https://main-server-zeta.vercel.app/courseUpdate', { id: idCookie, courses: existingData })
+//             .then(response => {
+//             })
+//             .catch(error => {
+//             });
+//     }
+// }
+// clearCookiesStoreCourses()
+
+const paymentPay = localStorage.getItem('localPaymentBtn');
 const clearCookiesStoreCourses = () => {
-    if (!paymnetPay) {
-        const allTemData = localStorage.getItem("newCoursesTem")
+    if (!paymentPay) {
+        const allTemData = localStorage.getItem("newCoursesTem");
+        // Check if allTemData is not null and parse it if not
+        const allTemDataParsed = allTemData ? JSON.parse(allTemData) : [];
+
         let existingData = JSON.parse(localStorage.getItem(idCookie)) || [];
-        existingData = existingData.filter(item => !allTemData.includes(item));
+        if (existingData) {
+            existingData = existingData.filter(item => !allTemDataParsed.includes(item));
+        } else {
+            return;
+        }
+
         localStorage.setItem(idCookie, JSON.stringify(existingData));
-        localStorage.removeItem('newCoursesTem')
+        localStorage.removeItem('newCoursesTem');
+
         axios.post('https://main-server-zeta.vercel.app/courseUpdate', { id: idCookie, courses: existingData })
             .then(response => {
+                // Handle response if needed
             })
             .catch(error => {
+                // Handle error if needed
             });
     }
-}
-clearCookiesStoreCourses()
+};
+
+// Call the function
+clearCookiesStoreCourses();

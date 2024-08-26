@@ -188,18 +188,16 @@ document.querySelector('#uploadBtn').addEventListener('click', async function ()
 const deleteFromLocalStorage = (valuesToRemove) => {
 
 
-    console.log(valuesToRemove);
+    const allTemData = localStorage.getItem("newCoursesTem");
+        // Check if allTemData is not null and parse it if not
+        const allTemDataParsed = allTemData ? JSON.parse(allTemData) : [];
 
-    // // Retrieve existing data from LocalStorage
-    let existingData = JSON.parse(localStorage.getItem(idCookie)) || [];
-
-    // // Filter out the values to remove
-    if(existingData){
-        existingData = existingData.filter(item => !valuesToRemove.includes(item));
-    }else{
-        console.log("ERROR FROM PAYMNET ")
-        return
-    }
+        let existingData = JSON.parse(localStorage.getItem(idCookie)) || [];
+        if (existingData) {
+            existingData = existingData.filter(item => !allTemDataParsed.includes(item));
+        } else {
+            return;
+        }
 
     console.log(existingData);
     // // Save the updated data back to LocalStorage
