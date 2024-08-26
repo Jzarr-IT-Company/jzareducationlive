@@ -15,6 +15,28 @@ function checkPaymentMethod() {
     }
     return true;
 }
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+        return parts.pop().split(';').shift();
+    }
+}
+const idCookie = getCookie('id');
+const isCourse = getCookie('isCourse');
+const tokenCookie = getCookie('token');
+let id;
+// axios(`https://main-server-zeta.vercel.app/getStudentData/${idCookie}`,
+//     {
+//         headers: {
+//             'Authorization': `Bearer ${tokenCookie}`
+//         }
+//     }).then((res)=>{
+//         console.log(res.data.data)
+//         res.data.data.map((data)=>{
+//             console.log(data._id)
+//         })
+//     })
 // URL ke query parameters ko get karne ke liye window.location.search ka use karein
 const queryString = window.location.search;
 
@@ -36,6 +58,7 @@ const decodedc = atob(c);
 console.log(decodedc)
 const fileInput = document.querySelector("#file");
 const imagePreview = document.querySelector("#imagePreview");
+
 
 
 let image;
@@ -108,7 +131,8 @@ document.querySelector('#uploadBtn').addEventListener('click', function () {
             amount: useramount,
             transactionsId: transactionsId.value, // Ensure transactionsId is a DOM element with a value
             accountName: accountName.value, // Ensure accountName is a DOM element with a value
-            coursesname: decodedc
+            coursesname: decodedc,
+            id:idCookie
         }).then((res) => {
             // Hide the loader once the request is complete
             document.getElementById('loader').style.display = 'none';
